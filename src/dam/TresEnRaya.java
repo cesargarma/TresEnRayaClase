@@ -1,9 +1,15 @@
 package dam;
 
+import java.util.Scanner;
+
 public class TresEnRaya {
 
     //atributos de clase
     private int [][] tablero = new int [3][3];
+    private int jugador = 1;
+
+    //auxiliares
+    private Scanner teclado = new Scanner(System.in);
 
     //constructor
     public TresEnRaya(){
@@ -17,6 +23,7 @@ public class TresEnRaya {
                 tablero[i][j] =0;
             }
         }
+        this.jugador = 1;
     }
 
     public void mostrar(){
@@ -38,11 +45,80 @@ public class TresEnRaya {
         this.iniciar();
         for (int i = 0; i < 9; i++) {
             this.mostrar();
-            turnoJugador();
+            if(turnoJugador(i)){
+                //jugador gana
+                break;
+            }else{
+                cambiarTurno();
+            }
         }
     }
 
-    private void turnoJugador() {
+    private void cambiarTurno() {
 
+    }
+
+    private boolean turnoJugador(int turno) {
+
+        int fila = -1;
+        int col = -1;
+        boolean swOk = false;
+
+        do {
+            do {
+                System.out.printf("> Jugador %d ¿fila (1..3)?", this.jugador);
+                fila = Integer.parseInt(teclado.nextLine()) - 1;
+
+            } while (!esValida(fila));
+
+            do {
+                System.out.printf("> Jugador %d ¿columna (1..3)?", this.jugador);
+                col = Integer.parseInt(teclado.nextLine()) - 1;
+
+            } while (!esValida(col));
+
+            if(tablero[fila][col]!=0){
+                System.out.println("[ERROR] CASILLA OCUPADA");
+                swOk = true;
+            }
+
+        }while(swOk);
+
+        //si alguien gana
+        if(turno >= 5){
+            if(horizontal(fila)) return true;
+            if(vertical(col)) return true;
+            if(diagonalIzq()) return true;
+            if(diagonalDer()) return true;
+        }
+
+        return false; //seguimos jugando
+    }
+
+    private boolean diagonalDer() {
+
+        return true;
+    }
+
+    private boolean diagonalIzq() {
+
+        return true;
+    }
+
+    private boolean vertical(int col) {
+
+        return true;
+    }
+
+    private boolean horizontal(int fila) {
+
+        return true;
+    }
+
+    private boolean esValida(int num) {
+        if(num < 1 || num > 3){
+            return false;
+        }
+        return true;
     }
 }
