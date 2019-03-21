@@ -13,6 +13,7 @@ public class TresEnRaya {
 
     //constructor
     public TresEnRaya(){
+
         this.iniciar();
     }
 
@@ -43,18 +44,24 @@ public class TresEnRaya {
 
     public void jugar(){
         this.iniciar();
-        for (int i = 0; i < 9; i++) {
-            this.mostrar();
+        for (int i = 1; i <= 9; i++) {
             if(turnoJugador(i)){
                 //jugador gana
+                this.mostrar();
                 break;
             }else{
                 cambiarTurno();
             }
+            this.mostrar();
         }
     }
 
     private void cambiarTurno() {
+        if(jugador == 1){
+            jugador = 2;
+        }else{
+            jugador = 1;
+        }
 
     }
 
@@ -83,6 +90,13 @@ public class TresEnRaya {
             }
 
         }while(swOk);
+
+        if(turno%2==0){
+            turno = 2;
+        }else{
+            turno = 1;
+        }
+        tablero[fila][col] = turno;
 
         //si alguien gana
         if(turno >= 5){
@@ -116,7 +130,7 @@ public class TresEnRaya {
     }
 
     private boolean esValida(int num) {
-        if(num < 1 || num > 3){
+        if(num < 0 || num >= 3){
             return false;
         }
         return true;
