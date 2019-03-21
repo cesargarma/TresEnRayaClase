@@ -28,6 +28,7 @@ public class TresEnRaya {
     }
 
     public void mostrar(){
+        System.out.println(" * -  -  - *");
         for (int i = 0; i < tablero.length; i++) {
             System.out.printf(" |");
             for (int j = 0; j < tablero[0].length; j++) {
@@ -38,22 +39,29 @@ public class TresEnRaya {
                 }
                 System.out.printf(" %c ",car);
             }
-            System.out.println(" |");
+            System.out.println("|");
         }
+        System.out.println(" * -  -  - *");
     }
 
     public void jugar(){
         this.iniciar();
+        boolean swVictory = false;
         for (int i = 1; i <= 9; i++) {
             if(turnoJugador(i)){
                 //jugador gana
                 this.mostrar();
+                System.out.println();
+                System.out.println(">>>Jugador "+this.jugador+"  ¡¡GANASTE!!");
+                swVictory = true;
                 break;
             }else{
                 cambiarTurno();
             }
             this.mostrar();
         }
+        if(!swVictory) System.out.println("No quedan posiciones libres... ¡¡ES UN EMPATE!!");
+
     }
 
     private void cambiarTurno() {
@@ -70,8 +78,10 @@ public class TresEnRaya {
         int fila = -1;
         int col = -1;
         boolean swOk = false;
+        int ficha = 0;
 
         do {
+            swOk = false;
             do {
                 System.out.printf("> Jugador %d ¿fila (1..3)?", this.jugador);
                 fila = Integer.parseInt(teclado.nextLine()) - 1;
@@ -92,11 +102,11 @@ public class TresEnRaya {
         }while(swOk);
 
         if(turno%2==0){
-            turno = 2;
+            ficha = 2;
         }else{
-            turno = 1;
+            ficha = 1;
         }
-        tablero[fila][col] = turno;
+        tablero[fila][col] = ficha;
 
         //si alguien gana
         if(turno >= 5){
@@ -110,22 +120,28 @@ public class TresEnRaya {
     }
 
     private boolean diagonalDer() {
+        if(tablero[0][2] == tablero[1][1] && tablero[0][2] == tablero[2][0] && tablero[0][2]!=0) return true;
 
-        return true;
+        return false;
     }
 
     private boolean diagonalIzq() {
+        if(tablero[0][0] == tablero[1][1] && tablero[0][0] == tablero[2][2] && tablero[0][0] != 0) return true;
 
-        return true;
+        return false;
     }
 
     private boolean vertical(int col) {
-
+        for (int i = 0; i < tablero.length; i++) {
+            if(tablero[i][col] != this.jugador) return false;
+        }
         return true;
     }
 
     private boolean horizontal(int fila) {
-
+        for (int i = 0; i < tablero[fila].length; i++) {
+            if(tablero[fila][i] != this.jugador) return  false;
+        }
         return true;
     }
 
